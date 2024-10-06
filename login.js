@@ -6,17 +6,13 @@ function login() {
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       // ログイン成功時の処理
-      console.log('ログイン成功:', userCredential.user);
+      const user = userCredential.user;
+      console.log('ログイン成功:', user); // ログイン後のユーザー情報を確認
       window.location.href = 'index.html'; // ログイン後にメインページにリダイレクト
     })
     .catch((error) => {
-      // エラー処理
       const errorMessage = error.message;
-      console.error('ログインエラー:', errorMessage);
-      const errorElement = document.getElementById('loginError');
-      if (errorElement) {
-        errorElement.textContent = errorMessage; // エラーメッセージを表示
-      }
+      document.getElementById('loginError').textContent = errorMessage;
     });
 }
 
