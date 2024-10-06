@@ -59,30 +59,28 @@ function checkBarcode() {
       }
     });
 
+    // UIを更新してフォームをクリア
+    renderSetDetails(data);
+    document.getElementById('barcodeInput').value = ''; // フォームを空にする
+
+    // すべてのアイテムが検品されたかを確認
     if (found) {
-      // Firestoreに検品状態を更新
       db.collection('inspectionSets').doc(setId).update({
         items: data.items
       }).then(() => {
-        renderSetDetails(data); // UIを更新
-
-        // すべてのアイテムが検品されたかを確認
+        // 検品完了、次の検品に進むかどうかはポップアップを表示せず、UIでフィードバック
         const allChecked = data.items.every(item => item.checked);
         if (allChecked) {
-          // 完了数をカウントアップ（無限回可能）
           db.collection('inspectionSets').doc(setId).update({
-            completedCount: firebase.firestore.FieldValue.increment(1), // 検品が完了したセットの数をインクリメント
-            items: data.items.map(item => ({ ...item, checked: false })) // 検品済みの状態をリセットして再検品可能にする
+            completedCount: firebase.firestore.FieldValue.increment(1),
+            items: data.items.map(item => ({ ...item, checked: false })) // 検品状態リセット
           }).then(() => {
-            alert('すべてのアイテムが検品されました。次の検品を開始できます。');
             loadSetDetails(); // 次回検品用にリストをリセット
           });
-        } else {
-          alert('バーコードが検品されました。');
         }
       });
     } else {
-      alert('バーコードが見つかりませんでした。');
+      document.getElementById('errorMessage').textContent = 'バーコードが見つかりませんでした。';
     }
   });
 }
@@ -90,4 +88,12 @@ function checkBarcode() {
 // ページ読み込み時に検品セットを表示
 window.onload = function() {
   loadSetDetails();
+
+  // Enterキーでバーコードを入力できるように設定
+  document.getElementById('barcodeInput').addEventListener('keypress', function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Enterキーのデフォルト動作を防ぐ
+      checkBarcode(); // Enterキーでバーコード検品を実行
+    }
+  });
 }
