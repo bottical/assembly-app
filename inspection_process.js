@@ -38,7 +38,6 @@ function renderSetDetails(setData) {
 
   setDetailsElement.innerHTML = `
     <h2>検品セット: ${setData.setName}</h2>
-    <p>完了数: ${setData.completedCount} / ${setData.items.length}</p>
     <ul class="item-list">${itemList}</ul>
   `;
 }
@@ -52,24 +51,38 @@ function checkBarcode() {
     const data = doc.data();
     let found = false;
 
+    // 全バーコードが読み取られたかどうかを確認
     data.items.forEach((item) => {
       if (item.barcode === barcodeInput && !item.checked) {
-        item.checked = true;
-        data.completedCount++;
+        item.checked = true; // 検品完了をマーク
         found = true;
       }
     });
 
     if (found) {
+      // Firestoreに検品状態を更新
       db.collection('inspectionSets').doc(setId).update({
-        items: data.items,
-        completedCount: data.completedCount
+        items: data.items
       }).then(() => {
-        alert('検品完了');
-        renderSetDetails(data);
+        renderSetDetails(data); // UIを更新
+
+        // すべてのアイテムが検品されたかを確認
+        const allChecked = data.items.every(item => item.checked);
+        if (allChecked) {
+          // 完了数をカウントアップ（無限回可能）
+          db.collection('inspectionSets').doc(setId).update({
+            completedCount: firebase.firestore.FieldValue.increment(1), // 検品が完了したセットの数をインクリメント
+            items: data.items.map(item => ({ ...item, checked: false })) // 再検品可能にするためリセット
+          }).then(() => {
+            alert('すべてのアイテムが検品されました。次の検品を開始できます。');
+            loadSetDetails(); // 次回検品用にリストをリセット
+          });
+        } else {
+          alert('バーコードが検品されました。');
+        }
       });
     } else {
-      alert('バーコードが見つかりません');
+      alert('バーコードが見つかりませんでした。');
     }
   });
 }
