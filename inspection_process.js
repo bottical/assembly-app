@@ -46,7 +46,7 @@ function renderSetDetails(setData) {
 function checkBarcode() {
   const barcodeInput = document.getElementById('barcodeInput').value.trim();
   const setId = getSetIdFromURL(); // URLからセットIDを取得
-  const currentUser = getCurrentUser(); // ログインしているユーザーの情報を取得
+//  const currentUser = getCurrentUser(); // ログインしているユーザーの情報を取得
 
   db.collection('inspectionSets').doc(setId).get().then((doc) => {
     const data = doc.data();
@@ -80,7 +80,7 @@ function checkBarcode() {
             completedCount: firebase.firestore.FieldValue.increment(1),
             items: data.items.map(item => ({ ...item, checked: false })), // 検品状態リセット
             lastCompletedAt: firebase.firestore.FieldValue.serverTimestamp(), // タイムスタンプ
-            completedBy: currentUser ? currentUser.displayName : '匿名ユーザー' // ユーザー名
+ //           completedBy: currentUser ? currentUser.displayName : '匿名ユーザー' // ユーザー名
           }).then(() => {
             loadSetDetails(); // 次回検品用にリストをリセット
           });
