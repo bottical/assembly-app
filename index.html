@@ -1,0 +1,29 @@
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>セット登録ページ</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
+    <script defer src="set_register.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">セット登録ページ</h1>
+    <div class="set-pattern">
+        <label for="setSelect" class="form-label">セットパターンを選択してください:</label>
+        <select id="setSelect" class="form-select">
+            <option value="set1">セット1 (商品A, 商品B, 商品C)</option>
+            <option value="set2">セット2 (商品D, 商品E, 商品F)</option>
+        </select>
+    </div>
+    <div class="mt-4">
+        <button id="exportHistory" class="btn btn-primary">検品履歴を出力</button>
+    </div>
+    <div class="mt-4">
+        <a href="inspection.html" class="btn btn-secondary">検品ページへ</a>
+    </div>
+</div>
+</body>
+</html>
