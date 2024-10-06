@@ -81,21 +81,24 @@ function resetSet(setId) {
   db.collection('inspectionSets').doc(setId).get().then((doc) => {
     const data = doc.data();
 
-    // 全てのアイテムの検品状態をリセット
+    // アイテムの検品状態をすべてリセット
     const resetItems = data.items.map(item => ({
       ...item,
-      checked: false
+      checked: false // 検品状態をリセット
     }));
 
-    // アイテムの状態をリセットしてFirestoreに保存
+    // 完了数とアイテムの状態をリセットしてFirestoreに保存
     db.collection('inspectionSets').doc(setId).update({
-      items: resetItems
+      completedCount: 0, // 完了数をリセット
+      items: resetItems  // アイテムの検品状態をリセット
     }).then(() => {
       alert('セットがリセットされました');
       loadSetList(); // セットリストを再表示
     }).catch((error) => {
       console.error('リセットに失敗しました: ', error);
     });
+  }).catch((error) => {
+    console.error('セットの取得に失敗しました: ', error);
   });
 }
 
