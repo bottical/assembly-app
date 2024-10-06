@@ -6,13 +6,17 @@ function login() {
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       // ログイン成功時の処理
-      closePopup(); // ポップアップを閉じる
+      console.log('ログイン成功:', userCredential.user);
       window.location.href = 'index.html'; // ログイン後にメインページにリダイレクト
     })
     .catch((error) => {
       // エラー処理
       const errorMessage = error.message;
-      document.getElementById('loginError').textContent = errorMessage;
+      console.error('ログインエラー:', errorMessage);
+      const errorElement = document.getElementById('loginError');
+      if (errorElement) {
+        errorElement.textContent = errorMessage; // エラーメッセージを表示
+      }
     });
 }
 
@@ -27,6 +31,7 @@ function logout() {
       console.error('ログアウト中にエラーが発生しました:', error);
     });
 }
+
 
 // ポップアップを開く関数
 function openPopup() {
