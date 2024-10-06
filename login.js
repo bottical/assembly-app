@@ -7,12 +7,24 @@ function login() {
     .then((userCredential) => {
       // ログイン成功時の処理
       closePopup(); // ポップアップを閉じる
-      console.log('ログイン成功:', userCredential.user);
+      window.location.href = 'index.html'; // ログイン後にメインページにリダイレクト
     })
     .catch((error) => {
       // エラー処理
       const errorMessage = error.message;
       document.getElementById('loginError').textContent = errorMessage;
+    });
+}
+
+// ログアウト処理
+function logout() {
+  firebase.auth().signOut()
+    .then(() => {
+      console.log('ログアウト成功');
+      window.location.href = 'login.html'; // ログアウト後にログインページにリダイレクト
+    })
+    .catch((error) => {
+      console.error('ログアウト中にエラーが発生しました:', error);
     });
 }
 
@@ -24,17 +36,4 @@ function openPopup() {
 // ポップアップを閉じる関数
 function closePopup() {
   document.getElementById('loginPopup').style.display = 'none';
-}
-
-// ログアウト処理
-function logout() {
-  firebase.auth().signOut()
-    .then(() => {
-      console.log('ログアウト成功');
-      // ログアウト後のリダイレクトやUI更新処理をここに追加
-      window.location.href = 'login.html'; // ログインページにリダイレクト
-    })
-    .catch((error) => {
-      console.error('ログアウト中にエラーが発生しました:', error);
-    });
 }
