@@ -16,3 +16,14 @@ if (!window.db) { // すでにdbが定義されているか確認
   // Firestoreインスタンスを作成してグローバルに保存
   window.db = firebase.firestore();
 }
+
+// ログイン状態の確認
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    console.log('ログインユーザー:', user.displayName);
+    // ユーザーがログインしている場合の処理
+  } else {
+    // ユーザーがログインしていない場合、ログインページにリダイレクト
+    window.location.href = 'login.html';
+  }
+});
