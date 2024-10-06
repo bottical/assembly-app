@@ -20,13 +20,18 @@
   <form id="setForm">
     <label for="setName">検品セット名:</label>
     <input type="text" id="setName" name="setName">
-  
-    <label for="itemName">アイテム名:</label>
-    <input type="text" id="itemName" name="itemName">
-  
-    <label for="barcode">バーコード:</label>
-    <input type="text" id="barcode" name="barcode">
-  
+
+    <!-- 複数バーコード入力フィールド -->
+    <div id="itemContainer">
+      <div class="item">
+        <label for="itemName">アイテム名:</label>
+        <input type="text" name="itemName" placeholder="アイテム名">
+        <label for="barcode">バーコード:</label>
+        <input type="text" name="barcode" placeholder="バーコード">
+      </div>
+    </div>
+
+    <button type="button" onclick="addItem()">アイテムを追加</button>
     <button type="button" onclick="registerSet()">セットを登録</button>
   </form>
 
