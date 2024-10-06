@@ -1,3 +1,20 @@
+// アイテムを追加するためのフォームを動的に追加する関数
+function addItem() {
+  const itemContainer = document.getElementById('itemContainer');
+  
+  const itemDiv = document.createElement('div');
+  itemDiv.classList.add('item');
+
+  itemDiv.innerHTML = `
+    <label for="itemName">アイテム名:</label>
+    <input type="text" name="itemName" placeholder="アイテム名">
+    <label for="barcode">バーコード:</label>
+    <input type="text" name="barcode" placeholder="バーコード">
+  `;
+
+  itemContainer.appendChild(itemDiv);
+}
+
 // 検品セットを登録する関数（複数のアイテムとバーコードを一つのセットとして登録）
 function registerSet() {
   const setName = document.getElementById('setName').value;
