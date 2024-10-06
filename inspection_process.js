@@ -111,12 +111,3 @@ window.onload = function() {
     }
   });
 }
-
-  // Enterキーでバーコードを入力できるように設定
-  document.getElementById('barcodeInput').addEventListener('keypress', function (event) {
-    if (event.key === 'Enter') {
-      event.preventDefault(); // Enterキーのデフォルト動作を防ぐ
-      checkBarcode(); // Enterキーでバーコード検品を実行
-    }
-  });
-}
