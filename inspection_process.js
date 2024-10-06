@@ -93,11 +93,11 @@ function checkBarcode() {
 }
 
 // ログインしているユーザーを取得する関数（仮）
-function getCurrentUser() {
+//function getCurrentUser() {
   // この関数は後でログイン機能と連携させます
   // 現在は仮に固定されたユーザー情報を返します
-  return firebase.auth().currentUser;
-}
+//  return firebase.auth().currentUser;
+//}
 
 // ページ読み込み時に検品セットを表示
 window.onload = function() {
