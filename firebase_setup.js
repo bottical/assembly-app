@@ -26,5 +26,10 @@ firebase.auth().onAuthStateChanged((user) => {
     if (currentPage === '/login.html') {
       window.location.href = 'index.html'; // ログイン成功後にメインページへ
     }
+  } else {
+    // 既にログインページにいない場合のみリダイレクト
+    if (currentPage !== '/login.html') {
+      window.location.href = 'login.html';
+    }
   }
 });
