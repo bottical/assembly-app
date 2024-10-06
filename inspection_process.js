@@ -98,8 +98,10 @@ function checkBarcode() {
 function getCurrentUser(callback) {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
+      console.log('ユーザー情報取得:', user); // ログでユーザー情報を確認
       callback(user); // ユーザー情報をコールバックで返す
     } else {
+      console.log('ユーザーはログインしていません'); // ログで確認
       callback(null); // ユーザーがいない場合は null を返す
     }
   });
