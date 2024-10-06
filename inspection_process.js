@@ -52,12 +52,16 @@ function checkBarcode() {
     let found = false;
 
     // 各アイテムのバーコードを検品
-    data.items.forEach((item) => {
+    for (let i = 0; i < data.items.length; i++) {
+      const item = data.items[i];
+
+      // 同じバーコードが複数ある場合は未検品のものを1つだけ処理する
       if (item.barcode === barcodeInput && !item.checked) {
         item.checked = true; // 検品完了をマーク
         found = true;
+        break; // 1つだけ処理してループを終了
       }
-    });
+    }
 
     // UIを更新してフォームをクリア
     renderSetDetails(data);
