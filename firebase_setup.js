@@ -19,9 +19,9 @@ window.db = firebase.firestore();
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     console.log('ログインユーザー:', user.displayName);
-    // ログイン状態に応じてUIを更新
+    // ログイン状態に応じてUIを更新するコードをここに追加
   } else {
-    // ユーザーがログインしていない場合、ログインページにリダイレクト
+    // 既にログインページにいない場合のみリダイレクト
     if (window.location.pathname !== '/login.html') {
       window.location.href = 'login.html';
     }
