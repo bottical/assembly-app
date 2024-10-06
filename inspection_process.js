@@ -92,11 +92,17 @@ function checkBarcode() {
   });
 }
 
-// ログインしているユーザーを取得する関数（仮）
-function getCurrentUser() {
-  // この関数は後でログイン機能と連携させます
-  // 現在は仮に固定されたユーザー情報を返します
-  return firebase.auth().currentUser;
+// ログインしているユーザーを取得する関数
+function getCurrentUser(callback) {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      // ユーザー情報をコールバックで返す
+      callback(user);
+    } else {
+      // ログインしていない場合
+      callback(null);
+    }
+  });
 }
 
 // ページ読み込み時に検品セットを表示
