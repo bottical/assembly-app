@@ -44,5 +44,25 @@
 <script src="firebase_setup.js"></script>
 <script src="inspection_register.js"></script> <!-- 登録ロジックを含むJSファイル -->
 
+  <!-- ポップアップログインフォーム -->
+<div id="loginPopup" class="popup">
+  <div class="popup-content">
+    <span class="close" onclick="closePopup()">&times;</span>
+    <h2>ログイン</h2>
+    <label for="email">メールアドレス:</label>
+    <input type="email" id="email" placeholder="メールアドレス" required>
+
+    <label for="password">パスワード:</label>
+    <input type="password" id="password" placeholder="パスワード" required>
+
+    <button onclick="login()">ログイン</button>
+    <p id="loginError" class="error-message"></p>
+  </div>
+</div>
+
+<!-- ログインボタン（ポップアップを開くトリガー） -->
+<button onclick="openPopup()">ログイン</button>
+
+
 </body>
 </html>
