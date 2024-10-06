@@ -1,29 +1,42 @@
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>セット登録ページ</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
-    <script defer src="set_register.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>検品セット登録ページ</title>
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Firebase SDKのインポート -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="firebase_setup.js"></script> <!-- Firebase設定ファイル -->
 </head>
 <body>
+
 <div class="container">
-    <h1 class="my-4">セット登録ページ</h1>
-    <div class="set-pattern">
-        <label for="setSelect" class="form-label">セットパターンを選択してください:</label>
-        <select id="setSelect" class="form-select">
-            <option value="set1">セット1 (商品A, 商品B, 商品C)</option>
-            <option value="set2">セット2 (商品D, 商品E, 商品F)</option>
-        </select>
-    </div>
-    <div class="mt-4">
-        <button id="exportHistory" class="btn btn-primary">検品履歴を出力</button>
-    </div>
-    <div class="mt-4">
-        <a href="inspection.html" class="btn btn-secondary">検品ページへ</a>
-    </div>
+  <h1>検品セット登録</h1>
+
+  <!-- 検品セット登録フォーム -->
+  <form id="setForm">
+    <label for="setName">検品セット名:</label>
+    <input type="text" id="setName" name="setName">
+  
+    <label for="itemName">アイテム名:</label>
+    <input type="text" id="itemName" name="itemName">
+  
+    <label for="barcode">バーコード:</label>
+    <input type="text" id="barcode" name="barcode">
+  
+    <button type="button" onclick="registerSet()">セットを登録</button>
+  </form>
+
+  <!-- 登録済み検品セットの一覧 -->
+  <h2>検品セット一覧</h2>
+  <ul id="setList"></ul>
 </div>
+
+<script src="firebase_setup.js"></script>
+<script src="inspection_register.js"></script> <!-- 登録ロジックを含むJSファイル -->
+
 </body>
 </html>
