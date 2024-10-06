@@ -17,12 +17,18 @@ window.db = firebase.firestore();
 
 // ログイン状態の確認とページリダイレクト
 firebase.auth().onAuthStateChanged((user) => {
+  const currentPage = window.location.pathname;
+  
   if (user) {
     console.log('ログインユーザー:', user.displayName);
-    // ログイン状態に応じてUIを更新するコードをここに追加
+    
+    // もしログイン中で、ログインページにいる場合はメインページにリダイレクト
+    if (currentPage === '/login.html') {
+      window.location.href = 'index.html'; // ログイン成功後にメインページへ
+    }
   } else {
     // 既にログインページにいない場合のみリダイレクト
-    if (window.location.pathname !== '/login.html') {
+    if (currentPage !== '/login.html') {
       window.location.href = 'login.html';
     }
   }
