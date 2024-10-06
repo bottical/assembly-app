@@ -25,3 +25,16 @@ function openPopup() {
 function closePopup() {
   document.getElementById('loginPopup').style.display = 'none';
 }
+
+// ログアウト処理
+function logout() {
+  firebase.auth().signOut()
+    .then(() => {
+      console.log('ログアウト成功');
+      // ログアウト後のリダイレクトやUI更新処理をここに追加
+      window.location.href = 'login.html'; // ログインページにリダイレクト
+    })
+    .catch((error) => {
+      console.error('ログアウト中にエラーが発生しました:', error);
+    });
+}
