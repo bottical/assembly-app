@@ -1,24 +1,51 @@
-// 検品セットを登録する関数
+// アイテムを追加するためのフォームを動的に追加する関数
+function addItem() {
+  const itemContainer = document.getElementById('itemContainer');
+  
+  const itemDiv = document.createElement('div');
+  itemDiv.classList.add('item');
+
+  itemDiv.innerHTML = `
+    <label for="itemName">アイテム名:</label>
+    <input type="text" name="itemName" placeholder="アイテム名">
+    <label for="barcode">バーコード:</label>
+    <input type="text" name="barcode" placeholder="バーコード">
+  `;
+
+  itemContainer.appendChild(itemDiv);
+}
+
+// 検品セットを登録する関数（複数のアイテムとバーコードを一つのセットとして登録）
 function registerSet() {
   const setName = document.getElementById('setName').value;
-  const itemName = document.getElementById('itemName').value;
-  const barcode = document.getElementById('barcode').value;
+  const items = [];
+  
+  // 各アイテム名とバーコードを取得してitems配列に追加
+  document.querySelectorAll('#itemContainer .item').forEach(itemDiv => {
+    const itemName = itemDiv.querySelector('input[name="itemName"]').value;
+    const barcode = itemDiv.querySelector('input[name="barcode"]').value;
+    
+    if (itemName && barcode) {
+      items.push({
+        name: itemName,
+        barcode: barcode,
+        checked: false // 検品未完了状態で初期化
+      });
+    }
+  });
 
-  if (!setName || !itemName || !barcode) {
-    alert("全てのフィールドを入力してください");
+  if (!setName || items.length === 0) {
+    alert("セット名と少なくとも1つのアイテムを登録してください");
     return;
   }
 
   const setData = {
     setName: setName,
-    items: [{
-      name: itemName,
-      barcode: barcode,
-      checked: false
-    }],
+    items: items,
     completedCount: 0
   };
 
+  // Firestoreにセットを登録
   db.collection('inspectionSets').add(setData).then(() => {
     alert('セットが登録されました');
     loadSetList(); // セット一覧を更新
