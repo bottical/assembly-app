@@ -1,5 +1,5 @@
 // Firebase設定とFirestoreインスタンス作成
-if (!window.db) { // すでにdbが定義されているか確認
+if (!firebase.apps.length) {
   const firebaseConfig = {
     apiKey: "AIzaSyAr7u9B-w9XXdWbEtWwwvjJhuDKDuecjmM",
     authDomain: "assembly-app-b644d.firebaseapp.com",
@@ -9,11 +9,21 @@ if (!window.db) { // すでにdbが定義されているか確認
     appId: "1:854507856467:web:c028af6a65afb9a1901ca6"
   };
 
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-
-  // Firestoreインスタンスを作成してグローバルに保存
-  window.db = firebase.firestore();
+  firebase.initializeApp(firebaseConfig);
 }
 
+// Firestoreインスタンスを作成
+window.db = firebase.firestore();
+
+// ログイン状態の確認とページリダイレクト
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    console.log('ログインユーザー:', user.displayName);
+    // ログイン状態に応じてUIを更新
+  } else {
+    // ユーザーがログインしていない場合、ログインページにリダイレクト
+    if (window.location.pathname !== '/login.html') {
+      window.location.href = 'login.html';
+    }
+  }
+});
