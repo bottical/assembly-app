@@ -51,7 +51,7 @@ function checkBarcode() {
     const data = doc.data();
     let found = false;
 
-    // 全バーコードが読み取られたかどうかを確認
+    // 各アイテムのバーコードを検品
     data.items.forEach((item) => {
       if (item.barcode === barcodeInput && !item.checked) {
         item.checked = true; // 検品完了をマーク
@@ -72,7 +72,7 @@ function checkBarcode() {
           // 完了数をカウントアップ（無限回可能）
           db.collection('inspectionSets').doc(setId).update({
             completedCount: firebase.firestore.FieldValue.increment(1), // 検品が完了したセットの数をインクリメント
-            items: data.items.map(item => ({ ...item, checked: false })) // 再検品可能にするためリセット
+            items: data.items.map(item => ({ ...item, checked: false })) // 検品済みの状態をリセットして再検品可能にする
           }).then(() => {
             alert('すべてのアイテムが検品されました。次の検品を開始できます。');
             loadSetDetails(); // 次回検品用にリストをリセット
